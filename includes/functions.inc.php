@@ -30,7 +30,7 @@ function invalidEmail($email) {
 
     $result = false;
 
-    if (filter_var($email,FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
         $result = true;
     }
     else{
@@ -59,7 +59,7 @@ function uidExists($conn, $username,$email) {
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location ../signup.php?error=stmtfailed");
+        header("location: ../signup.php?error=stmtfailed");
         exit();
     }
 
@@ -86,7 +86,7 @@ function createUser($conn,$name,$email,$username,$pwd) {
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location ../signup.php?error=stmtfailed");
+        header("location: ../signup.php?error=stmtfails");
         exit();
     }
 
@@ -97,6 +97,6 @@ function createUser($conn,$name,$email,$username,$pwd) {
 
     mysqli_stmt_close($stmt);
 
-    header("location ../login_page.html?error=none");
+    header("location: ../login_page.html?error=none");
     exit();
 }
