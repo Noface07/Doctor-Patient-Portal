@@ -81,7 +81,7 @@ function uidExists($conn, $username,$email) {
 
 function createUser($conn,$name,$email,$username,$pwd) {
 
-    $sql= "INSERT INTO users (usersName, usersEmail,usersId,usersPwd) VALUES (?,?,?,?);";
+    $sql= "INSERT INTO users (usersName,usersEmail,usersUid,usersPwd) VALUES (?,?,?,?);";
 
     $stmt = mysqli_stmt_init($conn);
 
@@ -100,3 +100,42 @@ function createUser($conn,$name,$email,$username,$pwd) {
     header("location: ../login_page.html?error=none");
     exit();
 }
+
+function emptyInputLogin($username,$pwd){
+
+    $result = false;
+ 
+     if (empty($username)||empty($pwd)) {
+         $result = true;
+     }
+     else{
+         $result = false;
+     }
+     return $result;
+ }
+
+ function loginUser($conn,$username,$pwd) {
+
+    $uidExists = uidExists($conn, $username,$username);
+
+    if ($uidExists == false) {
+        header("location: ../login.php?error=wronglogin");  
+    }
+
+    $pwdHashed = $uidExists["usersPwd"];
+    $checkPwd = password_verify($pwd,$pwdHashed);
+
+    if ($checkPwd == false) {
+        header("location: ../login.php?error=wronglogin");
+        exit();
+    }
+
+    else if ($checkPwd == true){
+        session_start();
+        $_SESSION['userid'] = $uidExists["usersId"];
+        $_SESSION['useruid'] = $uidExists["usersUid"];
+        header("location: ../dashboard.php");
+        exit();
+    }
+
+ }
