@@ -1,7 +1,8 @@
 <?php
 include 'connect.php';
+
 $id = $_GET['updateid'];
-$sql = "SELECT * FROM `patients`";
+$sql = "SELECT * FROM `patients` where id='$id'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 
@@ -22,8 +23,8 @@ if (isset($_POST['submit'])){
     $gender = $_POST['gender'];
     $doa = $_POST['doa'];
 
-    $sql = "UPDATE `patients` SET `id` = '$id', `name` = '$name', `mobile` = '$mobile',`address` = '$address', `bloodgrp` = '$bg',
-    `gender` = '$gender',`doa` = '$doa' WHERE `id` = '$id'";
+    $sql = "UPDATE `patients` SET `id` = '$id', `name` = '$name', mobile = '$mobile',`address` = '$address', `bloodgrp` = '$bg',
+    gender = '$gender',`doa` = '$doa' WHERE `id` = '$id'";
 
     $result = mysqli_query($conn,$sql);
 
